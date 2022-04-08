@@ -10,9 +10,6 @@
                 <img :src="photo.path" />
             </div>
             <div id="commentSection">
-                <div id="comments">
-
-                </div>
                 <div id="addComment" v-if="currentUser">
                     <form class="pure-form" @submit.prevent="upload">
                         <legend>Add a comment!</legend>
@@ -23,6 +20,14 @@
                             <button type="submit">Submit</button>
                         </fieldset>
                     </form>
+                </div>
+                <div id="comments">
+                    <legend>Comments</legend>
+                    <div class="singleComment" v-for="comment in comments" v-bind:key="comment._id">
+                        <p>{{comment.description}}</p>
+                        <p>--{{comment.user.firstName}} {{comment.user.lastName}}</p>
+                        <p>{{formatDate(comment.created)}}</p>
+                    </div>
                 </div>
             </div>
     </div>
@@ -49,6 +54,7 @@ export default {
         this.getPhoto();
         this.getUser();
         this.getComments();
+        this.currentUser();
     },
     computed: {
         currentUser() {
@@ -79,14 +85,14 @@ export default {
             else
                 return moment(date).format('d MMMM YYYY');
         },
-        // async getComments() {
-        //     try {
-        //         let response = await axios.get("/api/comments/"+this.photoid);
-        //         this.comments = response.data;
-        //     } catch (error) {
-        //         this.error = error.response.data.message;
-        //     }
-        // },
+        async getComments() {
+            try {
+                let response = await axios.get("/api/comments/"+this.photoid);
+                this.comments = response.data;
+            } catch (error) {
+                this.error = error.response.data.message;
+            }
+        },
         async upload() {
             try {
                 await axios.post("/api/comments", {
@@ -138,6 +144,24 @@ export default {
 .photoDate {
   font-size: 0.7em;
   font-weight: normal;
+}
+
+#commentSection {
+    width: 100%;
+}
+
+#comments {
+    display: inline-block;
+    width: 50%;
+}
+
+#addComment {
+    display: inline-block;
+    width: 50%;
+}
+
+.singleComment {
+    border: 1px solid cyan;
 }
 
 p {

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require("express");
 const router = express.Router();
+const fs = require('fs');
 
 // Configure multer so that it will upload to '/public/images'
 const multer = require('multer')
@@ -90,12 +91,9 @@ router.get("/all", async (req, res) => {
 // get one photo
 router.get("/:id", async (req, res) => {
     try {
-        , {
-            firstName: this.firstName,
-            lastName: this.lastName,
-            username: this.username,
-            password: this.password,
-          }
+        let photo = await Photo.findOne({
+            _id: req.params.id,
+        });
         return res.send(photo);
     } catch (error) {
         //console.log(error);
@@ -125,9 +123,14 @@ router.put("/:id", upload.single('photo'), async (req, res) => {
 // delete a photo
 router.delete('/:id', async (req, res) => {
     try {
+        let photo = await Photo.findOne({
+            _id: req.params.id,
+        });
         await Photo.deleteOne({
             _id: req.params.id
         });
+        fs.unlink('../front-end/public'+photo.path, 
+            (err) => { if (err) throw err; console.log(photo.path+'was deleted')});
         res.sendStatus(200);
     } catch (error) {
         //console.log(error);

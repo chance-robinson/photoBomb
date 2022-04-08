@@ -11,7 +11,7 @@
       <div class="buttons">
         <editor :photo="photo" :show="photo.show" @close="close(photo)" @uploadEdit="uploadEdit(photo)"/>
         <button @click="toggleEdit(photo)" v-if="routeid === 'dashboard'">Edit</button>
-        <button @click="deleteItem(photo._id,index)" v-if="routeid === 'dashboard'">Delete</button>
+        <button @click="deleteItem(photo._id,photo.path,index)" v-if="routeid === 'dashboard'">Delete</button>
       </div>
     </div>
   </section>
@@ -53,9 +53,10 @@ export default {
       else
         return moment(date).format('d MMMM YYYY');
     },
-    async deleteItem(photo,index) {
+    async deleteItem(photo,path,index) {
               try {
                   await axios.delete("/api/photos/"+photo);
+                  await axios.delete("/api/comments/"+photo);
                   document.getElementsByClassName('image')[index].innerHTML = 'Image deleted';
                   return true;
               } catch (error) {

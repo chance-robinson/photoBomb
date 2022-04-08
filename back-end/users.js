@@ -31,7 +31,7 @@ userSchema.pre('save', async function (next) {
         this.password = hash;
         next();
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         next(error);
     }
 });
@@ -137,7 +137,7 @@ router.post('/', async (req, res) => {
             user: user
         });
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         return res.sendStatus(500);
     }
 });
@@ -195,7 +195,6 @@ router.get('/', validUser, async (req, res) => {
 // get a users information
 router.get('/:id', async (req, res) => {
     try {
-        console.log(req.params);
         let user = await User.findOne({
             _id: req.params.id,
         });
