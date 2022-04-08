@@ -107,6 +107,8 @@ router.put("/:id", upload.single('photo'), async (req, res) => {
             _id: req.params.id,
         });
         if (req.file) {
+            fs.unlink('../front-end/public'+photo.path, 
+            (err) => { if (err) throw err; console.log(photo.path+'was deleted')});
             photo.path = "/images/" + req.file.filename;
         }
         photo.title = req.body.title;

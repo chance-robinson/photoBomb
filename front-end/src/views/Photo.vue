@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div v-if="currentUser">
+            <h2>{{this.$root.$data.user.firstName}} {{this.$root.$data.user.lastName}} <a @click="logout"><i class="fas fa-sign-out-alt"></i></a></h2>
+        </div>
             <div id="image">
                 <div class="photoInfo">
                     <p class="photoTitle">{{photo.title}}</p>
@@ -21,6 +24,10 @@
                         </fieldset>
                     </form>
                 </div>
+                <div id="notLogged" v-if="!currentUser">
+                    <legend>Login to Comment</legend>
+                    <Login />
+                </div>
                 <div id="comments">
                     <legend>Comments</legend>
                     <div class="singleComment" v-for="comment in comments" v-bind:key="comment._id">
@@ -35,10 +42,14 @@
 
 <script>
 import axios from 'axios';
+import Login from '@/components/Login.vue';
 import moment from 'moment';
 
 export default {
     name: 'Photo',
+    components: {
+    Login
+  },
     data() {
         return {
             photo: '',
@@ -48,20 +59,35 @@ export default {
             comments: Array,
             photoid: this.$route.params.id,
             userid: this.$route.params.userid,
+
         }
     },
-    created() {
+    async created() {
         this.getPhoto();
         this.getUser();
         this.getComments();
+        try {
+        let response = await axios.get('/api/users');
+        this.$root.$data.user = response.data.user;
+        } catch (error) {
+        this.$root.$data.user = null;
+        }
         this.currentUser();
-    },
+  },
     computed: {
         currentUser() {
             return this.$root.$data.user;
         }
     },
     methods: {
+        async logout() {
+            try {
+                await axios.delete("/api/users");
+                this.$root.$data.user = null;
+            } catch (error) {
+                this.$root.$data.user = null;
+        }
+        },
         async getPhoto() {
             try {
                 let response = await axios.get("/api/photos/"+this.photoid);
@@ -162,6 +188,11 @@ export default {
 
 .singleComment {
     border: 1px solid cyan;
+}
+
+#notLogged {
+    display: inline-block;
+    width: 50%;
 }
 
 p {

@@ -11,8 +11,8 @@ photo on its photo page. The requirements for this part are:
 
 <!-- - Comments have a date. -->
 
-- When comments are displayed, they show the user's name who made the comment
-  and the date they made it. Format dates like we do for photos.
+<!-- - When comments are displayed, they show the user's name who made the comment
+  and the date they made it. Format dates like we do for photos. -->
 
 <!-- - When comments are added, they are displayed immediately on the page. You do
   not need to automatically display comments being added by a second user that
