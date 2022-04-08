@@ -90,9 +90,12 @@ router.get("/all", async (req, res) => {
 // get one photo
 router.get("/:id", async (req, res) => {
     try {
-        let photo = await Photo.findOne({
-            _id: req.params.id,
-        });
+        , {
+            firstName: this.firstName,
+            lastName: this.lastName,
+            username: this.username,
+            password: this.password,
+          }
         return res.send(photo);
     } catch (error) {
         //console.log(error);
@@ -119,6 +122,7 @@ router.put("/:id", upload.single('photo'), async (req, res) => {
     }
 });
 
+// delete a photo
 router.delete('/:id', async (req, res) => {
     try {
         await Photo.deleteOne({

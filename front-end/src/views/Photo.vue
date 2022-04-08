@@ -9,6 +9,22 @@
                 <p class="photoDate">{{formatDate(photo.created)}}</p>
                 <img :src="photo.path" />
             </div>
+            <div id="commentSection">
+                <div id="comments">
+
+                </div>
+                <div id="addComment" v-if="currentUser">
+                    <form class="pure-form" @submit.prevent="upload">
+                        <legend>Add a comment!</legend>
+                        <fieldset>
+                            <textarea v-model="description" placeholder="Comment"></textarea>
+                        </fieldset>
+                        <fieldset class="buttons">
+                            <button type="submit">Submit</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
     </div>
 </template>
 
@@ -22,6 +38,9 @@ export default {
         return {
             photo: '',
             user: '',
+            description: '',
+            error: '',
+            comments: Array,
             photoid: this.$route.params.id,
             userid: this.$route.params.userid,
         }
@@ -29,6 +48,12 @@ export default {
     created() {
         this.getPhoto();
         this.getUser();
+        this.getComments();
+    },
+    computed: {
+        currentUser() {
+            return this.$root.$data.user;
+        }
     },
     methods: {
         async getPhoto() {
@@ -53,6 +78,26 @@ export default {
                 return moment(date).fromNow();
             else
                 return moment(date).format('d MMMM YYYY');
+        },
+        // async getComments() {
+        //     try {
+        //         let response = await axios.get("/api/comments/"+this.photoid);
+        //         this.comments = response.data;
+        //     } catch (error) {
+        //         this.error = error.response.data.message;
+        //     }
+        // },
+        async upload() {
+            try {
+                await axios.post("/api/comments", {
+                    description: this.description,
+                    photo: this.photoid,
+                });
+                this.description = "";
+                this.$emit('uploadFinished');
+            } catch (error) {
+                this.error = "Error: " + error.response.data.message;
+            }
         },
     },
 }

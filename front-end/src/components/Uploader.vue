@@ -63,8 +63,6 @@ export default {
             formData.append('photo', this.file, this.file.name);
             formData.append('title', this.title);
             formData.append('description', this.description);
-            console.log(this.file);
-            console.log(this.file.name);
             await axios.post("/api/photos", formData);
             this.file = null;
             this.url = "";

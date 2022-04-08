@@ -13,7 +13,6 @@
         <button @click="toggleEdit(photo)" v-if="routeid === 'dashboard'">Edit</button>
         <button @click="deleteItem(photo._id,index)" v-if="routeid === 'dashboard'">Delete</button>
       </div>
-      {{photo}}
     </div>
   </section>
 </div>

@@ -34,7 +34,6 @@
           <button type="submit" class="pure-button pure-button-primary right">Upload</button>
         </fieldset>
       </form>
-      {{photo}}
     </div>
   </div>
 </transition>
