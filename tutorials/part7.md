@@ -11,8 +11,8 @@ with the photo on it. The requirements for this part are:
 - The photo page should show only a single photo, along with the title, user
   name, date, and description.
 
-- The photo page should have its own view in `src/views` and its out route in
-  `src/router.js`
+<!-- - The photo page should have its own view in `src/views` and its out route in
+  `src/router.js` -->
 
 - The photo page should axios to fetch the photo from the server.
 
