@@ -9,10 +9,11 @@
       </div>
       <p class="photoDate">{{formatDate(photo.created)}}</p>
       <div class="buttons">
-        <button @click="toggleEdit" v-if="routeid === 'dashboard'">Edit</button>
-        <editor :photo="photo" :show="show" @close="close" @uploadEdit="uploadEdit"/>
+        <editor :photo="photo" :show="photo.show" @close="close(photo)" @uploadEdit="uploadEdit(photo)"/>
+        <button @click="toggleEdit(photo)" v-if="routeid === 'dashboard'">Edit</button>
         <button @click="deleteItem(photo._id,index)" v-if="routeid === 'dashboard'">Delete</button>
       </div>
+      {{photo}}
     </div>
   </section>
 </div>
@@ -34,10 +35,19 @@ export default {
   data() {
     return {
       routeid: this.$route.name,
-      show: false,
     }
   },
   methods: {
+    close(photo) {
+      this.$set(photo, 'show', false);
+    },
+    toggleEdit(photo) {
+      this.$set(photo, 'show', true);
+    },
+    async uploadEdit(photo) {
+      photo.show = false;
+      this.getPhotos();
+    },
     formatDate(date) {
       if (moment(date).diff(Date.now(), 'days') < 15)
         return moment(date).fromNow();
@@ -52,15 +62,6 @@ export default {
               } catch (error) {
                   //console.log(error);
               }
-    },
-    close() {
-      this.show = false;
-    },
-    toggleEdit() {
-      this.show = true;
-    },
-    async uploadEdit() {
-      this.show = false;
     },
   },
 }

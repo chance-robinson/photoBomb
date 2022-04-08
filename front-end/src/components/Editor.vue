@@ -3,7 +3,7 @@
   <div class="modal-mask">
     <div class="modal-container">
       <form class="pure-form" @submit.prevent="upload">
-        <legend>Edit your picture {{photo}}</legend>
+        <legend>Edit your picture</legend>
         <fieldset>
           <input v-model="title" placeholder="Title">
         </fieldset>
@@ -34,6 +34,7 @@
           <button type="submit" class="pure-button pure-button-primary right">Upload</button>
         </fieldset>
       </form>
+      {{photo}}
     </div>
   </div>
 </transition>
@@ -45,7 +46,7 @@ export default {
   name: 'EditPhoto',
   props: {
     show: Boolean,
-    photo: Object
+    photo: Object,
   },
   data() {
     return {
@@ -83,11 +84,6 @@ export default {
             formData.append('title', this.title);
             formData.append('description', this.description);
             await axios.put("/api/photos/"+this.photo._id, formData);
-            this.file = null;
-            this.url = "";
-            this.title = "";
-            this.description = "";
-            this.path = "";
             this.$emit('uploadEdit');
         } catch (error) {
             this.error = "Error: " + error.response.data.message;

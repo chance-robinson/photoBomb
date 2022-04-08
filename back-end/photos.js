@@ -53,7 +53,7 @@ router.post("/", validUser, upload.single('photo'), async (req, res) => {
         await photo.save();
         return res.sendStatus(200);
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         return res.sendStatus(500);
     }
 });
@@ -69,7 +69,7 @@ router.get("/", validUser, async (req, res) => {
         }).populate('user');
         return res.send(photos);
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         return res.sendStatus(500);
     }
 });
@@ -82,7 +82,7 @@ router.get("/all", async (req, res) => {
         }).populate('user');
         return res.send(photos);
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         return res.sendStatus(500);
     }
 });
@@ -95,7 +95,7 @@ router.get("/:id", async (req, res) => {
         });
         return res.send(photo);
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         return res.sendStatus(500);
     }
 });
@@ -106,11 +106,7 @@ router.put("/:id", upload.single('photo'), async (req, res) => {
             _id: req.params.id,
         });
         if (req.file) {
-            console.log("image added");
             photo.path = "/images/" + req.file.filename;
-        }
-        else {
-            console.log("image not added");
         }
         photo.title = req.body.title;
         photo.description = req.body.description;
@@ -118,7 +114,7 @@ router.put("/:id", upload.single('photo'), async (req, res) => {
             await photo.save();
             return res.sendStatus(200);
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         return res.sendStatus(500);
     }
 });
