@@ -1,9 +1,10 @@
 <template>
     <div>
-        <div v-if="currentUser">
+            <div id="image">
+        <div class="menu" v-if="currentUser">
+            <p>Current Page: Photo</p>
             <h2>{{this.$root.$data.user.firstName}} {{this.$root.$data.user.lastName}} <a @click="logout"><i class="fas fa-sign-out-alt"></i></a></h2>
         </div>
-            <div id="image">
                 <div class="photoInfo">
                     <p class="photoTitle">{{photo.title}}</p>
                     <p class="photoName">{{user.firstName}} {{user.lastName}} </p>
@@ -193,6 +194,15 @@ export default {
 #notLogged {
     display: inline-block;
     width: 50%;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu h2 {
+  font-size: 14px;
 }
 
 p {

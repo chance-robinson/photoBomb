@@ -1,7 +1,10 @@
 <template>
 <div class="home">
-  <div v-if="user">
-    <h2>{{user.firstName}} {{user.lastName}} <a @click="logout"><i class="fas fa-sign-out-alt"></i></a></h2>
+  <div class="menu">
+    <p>Current Page: Home Screen</p>
+    <div v-if="user">
+      <h2>{{user.firstName}} {{user.lastName}} <a @click="logout"><i class="fas fa-sign-out-alt"></i></a></h2>
+    </div>
   </div>
   <image-gallery :photos="photos" />
   <p v-if="error">{{error}}</p>
@@ -60,5 +63,13 @@ export default {
 <style scoped>
 .home {
   padding-top: 8rem;
+}
+.menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu h2 {
+  font-size: 14px;
 }
 </style>
