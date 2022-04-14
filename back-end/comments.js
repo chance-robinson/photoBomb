@@ -64,19 +64,6 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-//remove all comments for a photo being deleted
-router.delete('/:id', async (req, res) => {
-    try {
-        await Comment.deleteMany({
-            photo: req.params.id
-        });
-        res.sendStatus(200);
-    } catch (error) {
-        //console.log(error);
-        res.sendStatus(503);
-    }
-});
-
 //export model and routes
 module.exports = {
     model: Comment,

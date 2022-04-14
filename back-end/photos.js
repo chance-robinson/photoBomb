@@ -101,45 +101,6 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// edit a photo
-router.put("/:id", upload.single('photo'), async (req, res) => {
-        let photo = await Photo.findOne({
-            _id: req.params.id,
-        });
-        if (req.file) {
-            fs.unlink('../front-end/public'+photo.path, 
-            (err) => { if (err) throw err; console.log(photo.path+'was deleted')});
-            photo.path = "/images/" + req.file.filename;
-        }
-        photo.title = req.body.title;
-        photo.description = req.body.description;
-    try {
-            await photo.save();
-            return res.sendStatus(200);
-    } catch (error) {
-        //console.log(error);
-        return res.sendStatus(500);
-    }
-});
-
-// delete a photo
-router.delete('/:id', async (req, res) => {
-    try {
-        let photo = await Photo.findOne({
-            _id: req.params.id,
-        });
-        await Photo.deleteOne({
-            _id: req.params.id
-        });
-        fs.unlink('../front-end/public'+photo.path, 
-            (err) => { if (err) throw err; console.log(photo.path+'was deleted')});
-        res.sendStatus(200);
-    } catch (error) {
-        //console.log(error);
-        res.sendStatus(503);
-    }
-});
-
 //export model and routes
 module.exports = {
     model: Photo,
